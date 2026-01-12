@@ -6,7 +6,7 @@ import { PokemonModule } from './pokemon/pokemon.module';
 import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
-  imports: [AuthModule, PokemonModule, PrismaModule],
+  imports: [ AuthModule, PokemonModule, PrismaModule],
   controllers: [AppController],
   providers: [AppService],
 })
