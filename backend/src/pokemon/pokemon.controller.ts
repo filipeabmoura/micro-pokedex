@@ -1,4 +1,4 @@
-import { Controller, Post, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { PokemonService } from './pokemon.service';
 
@@ -11,5 +11,11 @@ export class PokemonController {
     async importAll(@Req() req){
         const userId = req.user.sub;
         return this.pokemonService.importAllForUser(userId);
+    }
+
+    @Get()
+    async list(@Req() req){
+        const userId = req.user.sub;
+        return this.pokemonService.listByUser(userId);
     }
 }

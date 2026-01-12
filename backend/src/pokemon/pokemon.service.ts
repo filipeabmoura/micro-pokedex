@@ -43,4 +43,11 @@ export class PokemonService {
 
     return { imported: pokemonsToCreate.length };
   }
+
+  async listByUser(userId: string){
+    return this.prismaService.client.pokemon.findMany({
+        where: { userId },
+        orderBy: { name:'asc' },
+    });
+  }
 }
