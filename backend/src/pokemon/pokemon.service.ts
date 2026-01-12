@@ -50,4 +50,19 @@ export class PokemonService {
         orderBy: { name:'asc' },
     });
   }
+
+  async updateImage(userId: string, pokemonId: string, imagePath: string){
+    const pokemon = await this.prismaService.client.pokemon.findFirst({
+      where: { id:pokemonId, userId },
+    });
+
+    if(!pokemon) {
+      throw new BadRequestException('Pokémon não encontrado');
+    }
+
+    return this.prismaService.client.pokemon.update({
+      where: { id: pokemonId },
+      data: { imageUrl: imagePath },
+    });
+  }
 }
