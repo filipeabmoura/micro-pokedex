@@ -1,4 +1,4 @@
-import { Controller, Delete, Get, Param, Post, Req, UseGuards } from '@nestjs/common';
+import { Controller, Delete, Get, HttpCode, Param, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { FavoriteService } from './favorite.service';
 
@@ -13,6 +13,7 @@ export class FavoriteController {
         return this.favoriteService.add(userId, pokemonId);
     }
 
+    @HttpCode(204)
     @Delete(':pokemonId')
     @UseGuards(AuthGuard('jwt'))
     async unfavorite(@Req() req, @Param('pokemonId') pokemonId: string){
