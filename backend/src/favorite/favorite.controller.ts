@@ -2,7 +2,7 @@ import { Controller, Delete, Get, Param, Post, Req, UseGuards } from '@nestjs/co
 import { AuthGuard } from '@nestjs/passport';
 import { FavoriteService } from './favorite.service';
 
-@Controller('favorite')
+@Controller('favorites')
 export class FavoriteController {
     constructor(private readonly favoriteService: FavoriteService){}
 
