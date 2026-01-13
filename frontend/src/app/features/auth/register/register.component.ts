@@ -15,14 +15,21 @@ export class RegisterComponent {
   constructor(
     private authService: AuthService,
     private router: Router
-  ){}
-  
-  email = '';
-  password='';
+  ) { }
 
-  submit(){
-    this.authService.register(this.email, this.password).subscribe(() => {
-      this.router.navigate(['/login']);
-    })
+  email = '';
+  password = '';
+
+  submit() {
+    this.authService.register(this.email, this.password).subscribe({
+      next: (response) => {
+        console.log('[Register] Sucesso:', response);
+        this.router.navigate(['/login']);
+      },
+      error: (err) => {
+        console.error('[Register] Erro:', err);
+        // se quiser, pode exibir mensagem na tela depois
+      },
+    });
   }
 }
