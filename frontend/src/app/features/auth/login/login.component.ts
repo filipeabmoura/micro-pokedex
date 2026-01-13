@@ -19,11 +19,18 @@ export class LoginComponent {
   constructor(
     private authService: AuthService,
     private router: Router
-  ){}
+  ) { }
 
-  submit(){
+  submit() {
     this.authService.login(this.email, this.password).subscribe({
-      next: () => this.router.navigate(['/']), error: () => (this.error = 'Credenciais inválidas')
+      next: (response) => {
+        console.log('[Login] Sucesso:', response);
+        this.router.navigate(['/']);
+      },
+      error: (err) => {
+        console.error('[Login] Erro:', err);
+        this.error = 'Credenciais inválidas';
+      },
     });
   }
 }
