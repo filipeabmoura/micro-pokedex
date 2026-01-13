@@ -8,5 +8,3 @@ export const routes: Routes = [
 
     {path:'', redirectTo:'login', pathMatch:'full'}
 ];
-
-console.log('ROTAS REGISTRADAS', routes)
