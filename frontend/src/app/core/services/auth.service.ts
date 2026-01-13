@@ -12,13 +12,13 @@ export class AuthService {
   private apiUrl = 'http://localhost:3000'
 
   login(email: string, password: string) {
-    return this.httpClient.post<{ access_token: string }>(
+    return this.httpClient.post<{ accessToken: string }>(
       `${this.apiUrl}/auth/login`, {
       email,
       password
     }).pipe(
       tap(response => {
-        localStorage.setItem('token', response.access_token);
+        localStorage.setItem('token', response.accessToken);
       })
     );
   }
