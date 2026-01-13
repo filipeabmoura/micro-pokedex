@@ -3,4 +3,6 @@
 <dx-button 
     text="Importar Pokémons"
     type="success"    
+    [disabled]="loading"
+    (onClick)="importarPokemons()"
 ></dx-button>
