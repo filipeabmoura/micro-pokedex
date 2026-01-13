@@ -1,0 +1,8 @@
+<h2>Login</h2>
+
+<input placeholder="Email" [(ngModel)]="email">
+<input placeholder="Senha" [(ngModel)]="password">
+
+<button (click)="submit()">Entrar</button>
+
+<p *ngIf="error">{{ error }}</p>
