@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Pokemon } from '../models/pokemon.model';
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +14,12 @@ export class PokemonService {
   importPokemons(): Observable<void>{
     return this.httpClient.post<void>(
       `${this.API_URL}/pokemons/import`, {}
+    );
+  }
+
+  getPokemons(): Observable<Pokemon[]>{
+    return this.httpClient.get<Pokemon[]>(
+      `${this.API_URL}/pokemons`
     );
   }
 }

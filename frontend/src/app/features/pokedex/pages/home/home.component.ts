@@ -1,19 +1,35 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DxButtonModule } from 'devextreme-angular';
+import { DxButtonModule, DxDataGridModule } from 'devextreme-angular';
 import { PokemonService } from '../../services/pokemon.service';
+import { Pokemon } from '../../models/pokemon.model';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, DxButtonModule],
+  imports: [CommonModule, DxButtonModule, DxDataGridModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
+  constructor(private pokemonService: PokemonService) { }
+
+  pokemons: Pokemon[] = [];
   loading = false;
 
-  constructor(private pokemonService: PokemonService){}
+  ngOnInit(): void {
+    this.loadPokemons();
+  }
+
+  loadPokemons(): void {
+    this.pokemonService.getPokemons().subscribe({
+      next: (data) => {
+        this.pokemons = data
+        console.log('Pokémons do usuários buscados com sucesso');
+      },
+      error: err => console.error(err),
+    });
+  }
 
   importarPokemons(): void {
     this.loading = true;
