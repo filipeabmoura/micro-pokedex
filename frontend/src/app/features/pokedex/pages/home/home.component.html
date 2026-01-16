@@ -1,5 +1,6 @@
 <h2>Micro Pokédex</h2>
-<dx-button 
+<dx-button
+    *ngIf="!hasImported && !loading"
     text="Importar Pokémons"
     type="success"    
     [disabled]="loading"
@@ -7,7 +8,7 @@
 ></dx-button>
 
 <dx-data-grid
-    *ngIf="pokemons.length"
+    *ngIf="hasImported && !loading"
     [dataSource]="pokemons"
     [showBorders]="true"
 >
@@ -30,3 +31,7 @@
   </dx-button>
 </div>
 </dx-data-grid>
+
+<div *ngIf="loading">
+  Carregando...
+</div>

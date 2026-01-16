@@ -15,6 +15,7 @@ export class HomeComponent implements OnInit {
   constructor(private pokemonService: PokemonService) { }
 
   pokemons: Pokemon[] = [];
+  hasImported = false;
   loading = false;
 
   ngOnInit(): void {
@@ -22,12 +23,19 @@ export class HomeComponent implements OnInit {
   }
 
   loadPokemons(): void {
+    this.loading = true
+
     this.pokemonService.getPokemons().subscribe({
       next: (data) => {
-        this.pokemons = data
+        this.pokemons = data;
+        this.loading = false;
+        this.hasImported = this.pokemons.length > 0;
         console.log('Pokémons do usuários buscados com sucesso');
       },
-      error: err => console.error(err),
+      error: err => {
+        this.loading = false;
+        console.error(err)
+      }
     });
   }
 
@@ -37,6 +45,7 @@ export class HomeComponent implements OnInit {
     this.pokemonService.importPokemons().subscribe({
       next: () => {
         console.log('Pokémons importados com sucesso');
+        this.loadPokemons();
         this.loading = false;
       },
       error: (err) => {
