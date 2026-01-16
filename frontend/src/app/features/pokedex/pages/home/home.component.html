@@ -1,5 +1,4 @@
 <h2>Micro Pokédex</h2>
-
 <dx-button 
     text="Importar Pokémons"
     type="success"    
@@ -12,6 +11,22 @@
     [dataSource]="pokemons"
     [showBorders]="true"
 >
-    <dxi-column dataField="name" caption="Nome"></dxi-column>
-    <dxi-column dataField="level" caption="Nível"></dxi-column>
+    <dxi-column dataField="name" caption="Nome" width="300"></dxi-column>
+    <dxi-column dataField="level" caption="Nível" width="80"></dxi-column>
+
+    <dxi-column caption="Favorito" type="buttons">
+      <dxi-button
+        [template]="'favoriteTemplate'">
+      </dxi-button>
+    </dxi-column>
+
+<div *dxTemplate="let data of 'favoriteTemplate'">
+  <dx-button
+    [icon]="data.data.isFavorite ? 'ratingfilled' : 'ratingoutline'"
+    [hint]="data.data.isFavorite ? 'Remover' : 'Favoritar'"
+    [elementAttr]="{ class: data.data.isFavorite ? 'btn-favorite-on' : 'btn-favorite-off' }"
+    stylingMode="text"
+    (onClick)="onFavoriteClick(data)">
+  </dx-button>
+</div>
 </dx-data-grid>

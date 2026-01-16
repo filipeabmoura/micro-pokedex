@@ -22,4 +22,12 @@ export class PokemonService {
       `${this.API_URL}/pokemons`
     );
   }
+
+  favorite(pokemonId: string){
+    return this.httpClient.post(`${this.API_URL}/favorites/${pokemonId}`, null);
+  }
+
+  unFavorite(pokemonId: string){
+    return this.httpClient.delete(`${this.API_URL}/favorites/${pokemonId}`);
+  }
 }
