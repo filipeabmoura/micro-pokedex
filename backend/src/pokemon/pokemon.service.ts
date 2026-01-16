@@ -5,7 +5,7 @@ import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class PokemonService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService) { }
 
   async importAllForUser(userId: string) {
     const alreadyImported =
@@ -44,19 +44,33 @@ export class PokemonService {
     return { imported: pokemonsToCreate.length };
   }
 
-  async listByUser(userId: string){
-    return this.prismaService.client.pokemon.findMany({
-        where: { userId },
-        orderBy: { name:'asc' },
+  async listByUser(userId: string) {
+    const pokemons = await this.prismaService.client.pokemon.findMany({
+      where: { userId },
+      orderBy: { name: 'asc' },
+      include: {
+        favorites: {
+          where: { userId },
+          select: { id: true },
+        },
+      },
     });
+
+    return pokemons.map(pokemon => ({
+      id: pokemon.id,
+      name: pokemon.name,
+      level: pokemon.level,
+      imageUrl: pokemon.imageUrl,
+      isFavorite: pokemon.favorites.length > 0,
+    }));
   }
 
-  async updateImage(userId: string, pokemonId: string, imagePath: string){
+  async updateImage(userId: string, pokemonId: string, imagePath: string) {
     const pokemon = await this.prismaService.client.pokemon.findFirst({
-      where: { id:pokemonId, userId },
+      where: { id: pokemonId, userId },
     });
 
-    if(!pokemon) {
+    if (!pokemon) {
       throw new BadRequestException('Pokémon não encontrado');
     }
 
