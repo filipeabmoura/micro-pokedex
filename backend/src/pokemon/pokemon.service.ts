@@ -79,4 +79,26 @@ export class PokemonService {
       data: { imageUrl: imagePath },
     });
   }
+
+  async upLevel(userId: string, pokemonId: string, currentLevel: number) {
+    const pokemon = await this.prismaService.client.pokemon.findFirst({
+      where: { id: pokemonId, userId },
+    });
+
+    const updatedLevel = currentLevel + 1;
+
+    if (!pokemon) {
+      throw new BadRequestException('Pokémon não encontrado');
+    }
+
+    if (updatedLevel <= pokemon.level) {
+      throw new BadRequestException('Level inválido');
+    }
+
+
+    return this.prismaService.client.pokemon.update({
+      where: { id: pokemonId },
+      data: { level: updatedLevel },
+    });
+  }
 }
