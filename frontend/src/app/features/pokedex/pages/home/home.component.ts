@@ -82,4 +82,21 @@ export class HomeComponent implements OnInit {
     const pokemon = e.row.data as Pokemon;
     this.toggleFavorite(pokemon)
   }
+
+  upLevelPokemon(pokemon: Pokemon): void {
+      this.loading = true;
+      this.pokemonService.upLevelPokemon(pokemon.id, pokemon.level).subscribe({
+        next: () => {
+          console.log('Nível do pokémon aumementado!')
+          console.log(pokemon.level);
+        },
+        error: (err) => console.error('err'),
+      });
+      this.loading = false;
+    }
+
+  onUpLevelClick = (e: any): void => {
+    const pokemon = e.row.data as Pokemon;
+    this.upLevelPokemon(pokemon);
+  }
 }

@@ -30,4 +30,9 @@ export class PokemonService {
   unFavorite(pokemonId: string){
     return this.httpClient.delete(`${this.API_URL}/favorites/${pokemonId}`);
   }
+
+  upLevelPokemon(pokemonId: string, currentLevel: number) {
+    console.log('Nível aumentado - remover console.log após criar o endpoint no backend');
+    return this.httpClient.patch(`${this.API_URL}/pokemons/uplevel/${pokemonId}`, { level: currentLevel});
+  }
 }
