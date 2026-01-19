@@ -13,6 +13,22 @@
     <dxi-column dataField="pokemon.level" caption="Nível" width="80"></dxi-column>
 
     <dxi-column
+        caption="Aumentar nível"
+        type="buttons"
+        width="120">
+        <dxi-button [template]="'upLevelTemplate'"></dxi-button>
+    </dxi-column>
+
+    <div *dxTemplate="let data of 'upLevelTemplate'">
+      <dx-button
+        icon="add"
+        hint="Aumentar nível do pokémon"
+        stylingMode="text"
+        (onClick)="onUpLevelClick(data)">
+      </dx-button>
+    </div>
+
+    <dxi-column
         caption="Desfavoritar"
         type="buttons"
         width="120">

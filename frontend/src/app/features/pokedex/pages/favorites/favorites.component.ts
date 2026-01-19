@@ -4,6 +4,7 @@ import { DxButtonModule, DxDataGridModule } from 'devextreme-angular';
 import { FavoriteService } from '../../services/favorite/favorite.service';
 import { Pokemon } from '../../models/pokemon.model';
 import { Favorite } from '../../models/favorite.model';
+import { PokemonService } from '../../services/pokemon/pokemon.service';
 
 @Component({
   selector: 'app-favorites',
@@ -16,7 +17,7 @@ export class FavoritesComponent implements OnInit {
   hasFavorite = false;
   loading = false;
 
-  constructor(private favoriteService: FavoriteService){}
+  constructor(private favoriteService: FavoriteService, private pokemonService: PokemonService){}
 
   ngOnInit(): void {
     this.loadFavorites();
@@ -56,5 +57,24 @@ export class FavoritesComponent implements OnInit {
     const favorite = e.row.data as Favorite;
     const pokemon: Pokemon = favorite.pokemon;
     this.removeFavorite(pokemon)
+  }
+
+  upLevelPokemon(pokemon: Pokemon): void {
+      this.loading = true;
+      this.pokemonService.upLevelPokemon(pokemon.id, pokemon.level).subscribe({
+        next: () => {
+          console.log('Nível do pokémon aumementado!')
+          console.log(pokemon.level);
+          this.loadFavorites();
+        },
+        error: (err) => console.error('err'),
+      });
+      this.loading = false;
+    }
+
+  onUpLevelClick = (e: any): void => {
+    const favorite = e.row.data as Favorite;
+    const pokemon: Pokemon = favorite.pokemon;
+    this.upLevelPokemon(pokemon);
   }
 }
