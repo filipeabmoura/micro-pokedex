@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DxButtonModule, DxDataGridModule, DxTemplateModule } from 'devextreme-angular';
-import { PokemonService } from '../../services/pokemon.service';
+import { PokemonService } from '../../services/pokemon/pokemon.service';
 import { Pokemon } from '../../models/pokemon.model';
 
 @Component({
