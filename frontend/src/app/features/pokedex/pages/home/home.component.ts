@@ -89,6 +89,7 @@ export class HomeComponent implements OnInit {
         next: () => {
           console.log('Nível do pokémon aumementado!')
           console.log(pokemon.level);
+          this.loadPokemons();
         },
         error: (err) => console.error('err'),
       });

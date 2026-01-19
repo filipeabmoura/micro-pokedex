@@ -32,7 +32,6 @@ export class PokemonService {
   }
 
   upLevelPokemon(pokemonId: string, currentLevel: number) {
-    console.log('Nível aumentado - remover console.log após criar o endpoint no backend');
     return this.httpClient.patch(`${this.API_URL}/pokemons/uplevel/${pokemonId}`, { level: currentLevel});
   }
 }
