@@ -1,0 +1,42 @@
+<dx-toolbar>
+  <!-- Título -->
+  <dxi-item location="before">
+    <div class="app-title">Micro Pokédex</div>
+  </dxi-item>
+
+  <!-- Botões de navegação -->
+  <dxi-item location="after">
+    <dx-button
+      text="Home"
+      icon="home"
+      stylingMode="text"
+      [type]="isHome() ? 'default' : 'normal'"
+      (onClick)="goHome()">
+    </dx-button>
+  </dxi-item>
+
+  <dxi-item location="after">
+    <dx-button
+      text="Favoritos"
+      icon="favorites"
+      stylingMode="text"
+      [type]="isFavorites() ? 'default' : 'normal'"
+      (onClick)="goFavorites()">
+    </dx-button>
+  </dxi-item>
+
+  <!-- Logout -->
+  <dxi-item location="after">
+    <dx-button
+      text="Sair"
+      icon="runner"
+      type="danger"
+      stylingMode="contained"
+      (onClick)="logout()">
+    </dx-button>
+  </dxi-item>
+</dx-toolbar>
+
+<div class="content">
+  <router-outlet></router-outlet>
+</div>

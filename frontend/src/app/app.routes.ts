@@ -4,24 +4,20 @@ import { RegisterComponent } from './features/auth/register/register.component';
 import { authGuard } from './core/guards/auth.guard';
 import { HomeComponent } from './features/pokedex/pages/home/home.component';
 import { FavoritesComponent } from './features/pokedex/pages/favorites/favorites.component';
+import { PrivateLayoutComponent } from './components/private-layout.component';
 
 export const routes: Routes = [
     { path: 'login', component: LoginComponent },
-    { path: 'register', component: RegisterComponent},
-
-    {
-        path:'favorites',
-        component: FavoritesComponent,
-        canActivate: [authGuard],
-    },
+    { path: 'register', component: RegisterComponent },
 
     {
         path: '',
+        component: PrivateLayoutComponent,
         canActivate: [authGuard],
         children: [
-            //incluir rotas privadas aqui
-            { path: '', component: HomeComponent }
-        ]
+            { path: '', component: HomeComponent },
+            { path: 'favorites', component: FavoritesComponent },
+        ],
     },
 
     { path: '**', redirectTo: 'login' },
