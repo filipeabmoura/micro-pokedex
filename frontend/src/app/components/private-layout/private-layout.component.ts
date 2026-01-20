@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router, RouterModule, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { DxToolbarModule, DxButtonModule } from 'devextreme-angular';
-import { AuthService } from '../core/services/auth.service';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-private-layout',
