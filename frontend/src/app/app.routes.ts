@@ -6,11 +6,13 @@ import { HomeComponent } from './features/pokedex/pages/home/home.component';
 import { FavoritesComponent } from './features/pokedex/pages/favorites/favorites.component';
 import { PrivateLayoutComponent } from './components/private-layout/private-layout.component';
 import { PublicLayoutComponent } from './components/public-layout/public-layout.component';
+import { publicGuard } from './core/guards/public.guard';
 
 export const routes: Routes = [
     {
         path: 'auth',
         component: PublicLayoutComponent,
+        canActivate: [publicGuard],
         children: [
             { path: 'login', component: LoginComponent },
             { path: 'register', component: RegisterComponent },

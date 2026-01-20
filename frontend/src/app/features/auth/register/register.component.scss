@@ -1,0 +1,22 @@
+.register-container {
+  width: 100%;
+  max-width: 360px;
+  margin: 80px auto;
+  padding: 24px;
+
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+
+  h2 {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+
+  .error {
+    margin-top: 16px;
+    color: #d9534f;
+    text-align: center;
+    font-size: 14px;
+  }
+}
