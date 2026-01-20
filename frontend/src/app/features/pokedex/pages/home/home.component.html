@@ -16,6 +16,7 @@
     <dxi-column dataField="level" caption="Nível" width="80"></dxi-column>
 
     <dxi-column
+        name="upLevel"
         caption="Aumentar nível"
         type="buttons"
         width="120">
@@ -31,7 +32,7 @@
       </dx-button>
     </div>
 
-    <dxi-column caption="Favorito" type="buttons">
+    <dxi-column name="favorite" caption="Favorito" type="buttons">
       <dxi-button
         [template]="'favoriteTemplate'">
       </dxi-button>
