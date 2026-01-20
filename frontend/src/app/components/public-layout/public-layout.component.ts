@@ -20,10 +20,10 @@ export class PublicLayoutComponent {
   constructor(private router: Router) {}
 
   goLogin() {
-    this.router.navigate(['/login']);
+    this.router.navigate(['/auth/login']);
   }
 
   goRegister() {
-    this.router.navigate(['/register']);
+    this.router.navigate(['/auth/register']);
   }
 }

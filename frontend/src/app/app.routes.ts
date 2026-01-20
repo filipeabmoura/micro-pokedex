@@ -9,13 +9,13 @@ import { PublicLayoutComponent } from './components/public-layout/public-layout.
 
 export const routes: Routes = [
     {
-    path: '',
-    component: PublicLayoutComponent,
-    children: [
-      { path: 'login', component: LoginComponent },
-      { path: 'register', component: RegisterComponent },
-    ],
-  },
+        path: 'auth',
+        component: PublicLayoutComponent,
+        children: [
+            { path: 'login', component: LoginComponent },
+            { path: 'register', component: RegisterComponent },
+        ],
+    },
 
     {
         path: '',
