@@ -1,28 +1,41 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../../../core/services/auth.service';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { AuthService } from '../../../core/services/auth.service';
+
+import {
+  DxFormModule,
+  DxButtonModule
+} from 'devextreme-angular';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [
+    CommonModule,
+    DxFormModule,
+    DxButtonModule
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
-  email = '';
-  password = '';
+  formData = {
+    email: '',
+    password: '',
+  };
+
   error = '';
 
   constructor(
     private authService: AuthService,
     private router: Router
-  ) { }
+  ) {}
 
   submit() {
-    this.authService.login(this.email, this.password).subscribe({
+    const { email, password } = this.formData;
+
+    this.authService.login(email, password).subscribe({
       next: (response) => {
         console.log('[Login] Sucesso:', response);
         this.router.navigate(['/']);
