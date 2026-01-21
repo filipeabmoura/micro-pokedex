@@ -68,7 +68,7 @@ export class PokemonService {
     }));
   }
 
-  async updateImage(userId: string, pokemonId: string, imagePath: string) {
+  async addImage(userId: string, pokemonId: string, imageUrl: string) {
     const pokemon = await this.prismaService.client.pokemon.findFirst({
       where: { id: pokemonId, userId },
     });
@@ -77,11 +77,50 @@ export class PokemonService {
       throw new BadRequestException('Pokémon não encontrado');
     }
 
+    if (pokemon.imageUrl) {
+      throw new BadRequestException(
+        'Este pokémon já possui imagem. Use atualização.'
+      );
+    }
+
     return this.prismaService.client.pokemon.update({
       where: { id: pokemonId },
-      data: { imageUrl: imagePath },
+      data: { imageUrl },
     });
   }
+
+  async replaceImage(userId: string, pokemonId: string, newImageUrl: string) {
+  const pokemon = await this.prismaService.client.pokemon.findFirst({
+    where: { id: pokemonId, userId },
+  });
+
+  if (!pokemon) {
+    throw new BadRequestException('Pokémon não encontrado');
+  }
+
+  if (!pokemon.imageUrl) {
+    throw new BadRequestException(
+      'Este pokémon não possui imagem para atualizar'
+    );
+  }
+
+  // Remove imagem antiga
+  const relativePath = pokemon.imageUrl.replace(/^https?:\/\/[^/]+/i, '');
+  const filePath = join(process.cwd(), relativePath.replace(/^\//, ''));
+
+  try {
+    await unlink(filePath);
+  } catch (err) {
+    console.warn('Arquivo antigo não encontrado:', filePath);
+  }
+
+  // Atualiza para nova imagem
+  return this.prismaService.client.pokemon.update({
+    where: { id: pokemonId },
+    data: { imageUrl: newImageUrl },
+  });
+}
+
 
   async upLevel(userId: string, pokemonId: string, currentLevel: number) {
     const pokemon = await this.prismaService.client.pokemon.findFirst({

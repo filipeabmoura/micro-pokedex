@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Delete, Get, Param, Patch, Post, Req, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, Param, Patch, Post, Put, Req, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
@@ -33,47 +33,78 @@ export class PokemonController {
                     cb(null, uniqueName);
                 },
             }),
-            limits: {
-                fileSize: 2 * 1024 * 1024, // 2MB
-            },
+            limits: { fileSize: 2 * 1024 * 1024 },
             fileFilter(_, file, cb) {
                 const allowedExt = ['.png', '.jpg', '.jpeg', '.webp'];
-
                 if (
                     !file.mimetype.startsWith('image/') ||
                     !allowedExt.includes(extname(file.originalname).toLowerCase())
                 ) {
-                    return cb(
-                        new BadRequestException('Apenas imagens são permitidas'),
-                        false,
-                    );
+                    return cb(new BadRequestException('Apenas imagens são permitidas'), false);
                 }
-
                 cb(null, true);
             },
         }),
     )
-    async uploadImage(
+    async addImage(
         @Req() req,
         @Param('pokemonId') pokemonId: string,
-        @UploadedFile() file: Express.Multer.File
+        @UploadedFile() file: Express.Multer.File,
     ) {
-        const API_URL = 'http://localhost:3000'
-
         if (!file) {
             throw new BadRequestException('Arquivo não enviado');
         }
 
-        return this.pokemonService.updateImage(
+        return this.pokemonService.addImage(
             req.user.sub,
             pokemonId,
-            `${API_URL}/uploads/${file.filename}`
+            `http://localhost:3000/uploads/${file.filename}`,
         );
     }
 
+    @Put(':pokemonId/image')
+    @UseInterceptors(
+        FileInterceptor('file', {
+            storage: diskStorage({
+                destination: './uploads',
+                filename: (_, file, cb) => {
+                    const uniqueName = `${Date.now()}${extname(file.originalname)}`;
+                    cb(null, uniqueName);
+                },
+            }),
+            limits: { fileSize: 2 * 1024 * 1024 },
+            fileFilter(_, file, cb) {
+                const allowedExt = ['.png', '.jpg', '.jpeg', '.webp'];
+                if (
+                    !file.mimetype.startsWith('image/') ||
+                    !allowedExt.includes(extname(file.originalname).toLowerCase())
+                ) {
+                    return cb(new BadRequestException('Apenas imagens são permitidas'), false);
+                }
+                cb(null, true);
+            },
+        }),
+    )
+    async updateImage(
+        @Req() req,
+        @Param('pokemonId') pokemonId: string,
+        @UploadedFile() file: Express.Multer.File,
+    ) {
+        if (!file) {
+            throw new BadRequestException('Arquivo não enviado');
+        }
+
+        return this.pokemonService.replaceImage(
+            req.user.sub,
+            pokemonId,
+            `http://localhost:3000/uploads/${file.filename}`,
+        );
+    }
+
+
     @Patch('uplevel/:pokemonId')
     @UseGuards(AuthGuard('jwt'))
-    async favorite(@Req() req, @Param('pokemonId') pokemonId: string, @Body('level') currentLevel: number){
+    async favorite(@Req() req, @Param('pokemonId') pokemonId: string, @Body('level') currentLevel: number) {
         const userId = req.user.sub;
         return this.pokemonService.upLevel(userId, pokemonId, currentLevel);
     }
