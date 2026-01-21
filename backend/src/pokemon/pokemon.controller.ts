@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Get, Param, Patch, Post, Req, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, Param, Patch, Post, Req, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
@@ -77,4 +77,13 @@ export class PokemonController {
         const userId = req.user.sub;
         return this.pokemonService.upLevel(userId, pokemonId, currentLevel);
     }
+
+    @Delete(':pokemonId/image')
+    async deleteImage(
+        @Req() req,
+        @Param('pokemonId') pokemonId: string,
+    ) {
+        return this.pokemonService.removeImage(req.user.sub, pokemonId);
+    }
+
 }
