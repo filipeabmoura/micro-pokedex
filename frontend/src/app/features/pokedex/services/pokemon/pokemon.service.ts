@@ -35,7 +35,14 @@ export class PokemonService {
     return this.httpClient.patch(`${this.API_URL}/pokemons/uplevel/${pokemonId}`, { level: currentLevel });
   }
 
-  uploadImage(pokemonId: string, formData: FormData) {
+  uploadImage(pokemonId: string, formData: FormData, hasImage: boolean) {
+    if (hasImage) {
+      return this.httpClient.put(
+        `${this.API_URL}/pokemons/${pokemonId}/image`,
+        formData
+      );
+    }
+
     return this.httpClient.post(
       `${this.API_URL}/pokemons/${pokemonId}/image`,
       formData

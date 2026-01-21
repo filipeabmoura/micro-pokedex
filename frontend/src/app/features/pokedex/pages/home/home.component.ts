@@ -21,6 +21,7 @@ export class HomeComponent implements OnInit {
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
   selectedPokemonId: string | null = null;
+  selectedPokemonHasImage = false;
 
   ngOnInit(): void {
     this.loadPokemons();
@@ -107,11 +108,13 @@ export class HomeComponent implements OnInit {
 
   onAddImageClick = (e: any): void => {
     this.selectedPokemonId = e.row.data.id;
+    this.selectedPokemonHasImage = false;
     this.fileInput.nativeElement.click();
   };
 
   onChangeImageClick = (e: any): void => {
     this.selectedPokemonId = e.row.data.id;
+    this.selectedPokemonHasImage = true;
     this.fileInput.nativeElement.click();
   };
 
@@ -128,7 +131,7 @@ export class HomeComponent implements OnInit {
     formData.append('file', file);
 
     this.pokemonService
-      .uploadImage(this.selectedPokemonId, formData)
+      .uploadImage(this.selectedPokemonId, formData, this.selectedPokemonHasImage)
       .subscribe({
         next: () => {
           console.log('Imagem enviada com sucesso');
@@ -147,6 +150,7 @@ export class HomeComponent implements OnInit {
       this.fileInput.nativeElement.value = '';
     }
     this.selectedPokemonId = null;
+    this.selectedPokemonHasImage = false;
   }
 
   onRemoveImageClick = (e: any): void => {
