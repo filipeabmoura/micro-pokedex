@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DxButtonModule, DxDataGridModule, DxTemplateModule } from 'devextreme-angular';
 import { PokemonService } from '../../services/pokemon/pokemon.service';
@@ -17,6 +17,10 @@ export class HomeComponent implements OnInit {
   pokemons: Pokemon[] = [];
   hasImported = false;
   loading = false;
+
+  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
+
+  selectedPokemonId: string | null = null;
 
   ngOnInit(): void {
     this.loadPokemons();
@@ -84,20 +88,78 @@ export class HomeComponent implements OnInit {
   }
 
   upLevelPokemon(pokemon: Pokemon): void {
-      this.loading = true;
-      this.pokemonService.upLevelPokemon(pokemon.id, pokemon.level).subscribe({
-        next: () => {
-          console.log('Nível do pokémon aumementado!')
-          console.log(pokemon.level);
-          this.loadPokemons();
-        },
-        error: (err) => console.error('err'),
-      });
-      this.loading = false;
-    }
+    this.loading = true;
+    this.pokemonService.upLevelPokemon(pokemon.id, pokemon.level).subscribe({
+      next: () => {
+        console.log('Nível do pokémon aumementado!')
+        console.log(pokemon.level);
+        this.loadPokemons();
+      },
+      error: (err) => console.error('err'),
+    });
+    this.loading = false;
+  }
 
   onUpLevelClick = (e: any): void => {
     const pokemon = e.row.data as Pokemon;
     this.upLevelPokemon(pokemon);
   }
+
+  onAddImageClick = (e: any): void => {
+    this.selectedPokemonId = e.row.data.id;
+    this.fileInput.nativeElement.click();
+  };
+
+  onChangeImageClick = (e: any): void => {
+    this.selectedPokemonId = e.row.data.id;
+    this.fileInput.nativeElement.click();
+  };
+
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+
+    if (!input.files || input.files.length === 0 || !this.selectedPokemonId) {
+      return;
+    }
+
+    const file = input.files[0];
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    this.pokemonService
+      .uploadImage(this.selectedPokemonId, formData)
+      .subscribe({
+        next: () => {
+          console.log('Imagem enviada com sucesso');
+          this.loadPokemons();
+          this.resetFileInput();
+        },
+        error: (err) => {
+          console.error('Erro ao enviar imagem', err);
+          this.resetFileInput();
+        },
+      });
+  }
+
+  resetFileInput(): void {
+    if (this.fileInput) {
+      this.fileInput.nativeElement.value = '';
+    }
+    this.selectedPokemonId = null;
+  }
+
+  onRemoveImageClick = (e: any): void => {
+    const pokemonId = e.row.data.id;
+
+    this.pokemonService.removeImage(pokemonId).subscribe({
+      next: () => {
+        console.log('Imagem removida');
+        this.loadPokemons();
+      },
+      error: (err) => console.error(err),
+    });
+  };
+
+
 }
