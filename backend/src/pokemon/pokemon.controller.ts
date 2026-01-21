@@ -58,6 +58,8 @@ export class PokemonController {
         @Param('pokemonId') pokemonId: string,
         @UploadedFile() file: Express.Multer.File
     ) {
+        const API_URL = 'http://localhost:3000'
+
         if (!file) {
             throw new BadRequestException('Arquivo não enviado');
         }
@@ -65,7 +67,7 @@ export class PokemonController {
         return this.pokemonService.updateImage(
             req.user.sub,
             pokemonId,
-            `/uploads/${file.filename}`
+            `${API_URL}/uploads/${file.filename}`
         );
     }
 
