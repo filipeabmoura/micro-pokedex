@@ -1,0 +1,27 @@
+<dx-toolbar>
+  <dxi-item location="before">
+    <div class="app-title">Micro Pokédex</div>
+  </dxi-item>
+
+  <dxi-item location="after">
+    <dx-button
+      text="Login"
+      stylingMode="text"
+      icon="user"
+      (onClick)="goLogin()">
+    </dx-button>
+  </dxi-item>
+
+  <dxi-item location="after">
+    <dx-button
+      text="Cadastro"
+      stylingMode="text"
+      icon="add"
+      (onClick)="goRegister()">
+    </dx-button>
+  </dxi-item>
+</dx-toolbar>
+
+<div class="content">
+  <router-outlet></router-outlet>
+</div>

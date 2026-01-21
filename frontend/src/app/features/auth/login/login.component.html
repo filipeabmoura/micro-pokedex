@@ -1,0 +1,56 @@
+<div class="login-container">
+  <h2>Login</h2>
+
+  <dx-form
+    [formData]="formData"
+    [colCount]="1"
+    labelLocation="top"
+  >
+    <dxi-item
+      dataField="email"
+      editorType="dxTextBox"
+      [editorOptions]="{
+        placeholder: 'Email',
+        mode: 'email'
+      }"
+    >
+      <dxi-validation-rule
+        type="required"
+        message="Email é obrigatório"
+      ></dxi-validation-rule>
+
+      <dxi-validation-rule
+        type="email"
+        message="Email inválido"
+      ></dxi-validation-rule>
+    </dxi-item>
+
+    <dxi-item
+      dataField="password"
+      editorType="dxTextBox"
+      [editorOptions]="{
+        placeholder: 'Senha',
+        mode: 'password'
+      }"
+    >
+      <dxi-validation-rule
+        type="required"
+        message="Senha é obrigatória"
+      ></dxi-validation-rule>
+    </dxi-item>
+
+    <dxi-item
+      itemType="button"
+      horizontalAlignment="center"
+      [buttonOptions]="{
+        text: 'Entrar',
+        type: 'default',
+        stylingMode: 'contained',
+        width: '100%',
+        onClick: submit.bind(this)
+      }">
+    </dxi-item>
+  </dx-form>
+
+  <p class="error" *ngIf="error">{{ error }}</p>
+</div>

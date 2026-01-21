@@ -1,0 +1,34 @@
+.favorite-icon .dx-icon {
+  color: #9e9e9e; /* cinza (não favorito) */
+}
+
+.favorite-icon.active .dx-icon {
+  color: #e9810b; /* laranja (favorito) */
+}
+
+.favorite-icon.active {
+  border: 1px solid #000;
+  border-radius: 4px;
+}
+
+.favorite-icon.inactive {
+  border: 1px solid #000;
+  border-radius: 4px;
+}
+
+.pokemon-image-cell {
+  display: flex;
+  flex-direction: row;      /* ✅ lado a lado */
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+
+.pokemon-image {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}

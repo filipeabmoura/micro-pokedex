@@ -1,0 +1,104 @@
+<h2>Meus Favoritos</h2>
+
+<div *ngIf="!hasFavorite && !loading">
+  Você não favoritou nenhum pokémon ainda :(
+</div>
+
+<dx-data-grid
+    *ngIf="hasFavorite && !loading"
+    [dataSource]="favorites"
+    [showBorders]="true"
+>
+    <dxi-column
+      caption="Imagem"
+      width="150"
+      alignment="center"
+      cellTemplate="imageTemplate">
+    </dxi-column>
+
+    <div *dxTemplate="let data of 'imageTemplate'">
+      <div class="pokemon-image-cell">
+
+        <!-- SE TEM IMAGEM -->
+        <ng-container *ngIf="data.data.pokemon.imageUrl; else noImage">
+          <img
+            [src]="data.data.pokemon.imageUrl"
+            class="pokemon-image"
+            alt="Pokémon"
+          />
+
+          <dx-button
+            icon="edit"
+            stylingMode="text"
+            hint="Alterar imagem"
+            (onClick)="onChangeImageClick(data)">
+          </dx-button>
+
+          <dx-button
+            icon="trash"
+            stylingMode="text"
+            hint="Remover imagem"
+            (onClick)="onRemoveImageClick(data)">
+          </dx-button>
+        </ng-container>
+
+        <!-- SE NÃO TEM IMAGEM -->
+        <ng-template #noImage>
+          <dx-button
+            icon="image"
+            text="Adicionar"
+            stylingMode="text"
+            (onClick)="onAddImageClick(data)">
+          </dx-button>
+        </ng-template>
+
+      </div>
+    </div>
+
+
+    <dxi-column dataField="pokemon.name" caption="Nome" width="300"></dxi-column>
+    <dxi-column dataField="pokemon.level" caption="Nível" width="80"></dxi-column>
+
+    <dxi-column
+        caption="Aumentar nível"
+        type="buttons"
+        width="120">
+        <dxi-button [template]="'upLevelTemplate'"></dxi-button>
+    </dxi-column>
+
+    <div *dxTemplate="let data of 'upLevelTemplate'">
+      <dx-button
+        icon="add"
+        hint="Aumentar nível do pokémon"
+        stylingMode="text"
+        (onClick)="onUpLevelClick(data)">
+      </dx-button>
+    </div>
+
+    <dxi-column
+        caption="Desfavoritar"
+        type="buttons"
+        width="120">
+        <dxi-button [template]="'unfavoriteTemplate'"></dxi-button>
+    </dxi-column>
+
+  <div *dxTemplate="let data of 'unfavoriteTemplate'">
+    <dx-button
+      icon="trash"
+      hint="Remover dos favoritos"
+      stylingMode="text"
+      (onClick)="onUnfavoriteClick(data)">
+    </dx-button>
+  </div>
+</dx-data-grid>
+
+<div *ngIf="loading">
+  Carregando...
+</div>
+
+<input
+  type="file"
+  #fileInput
+  accept="image/*"
+  hidden
+  (change)="onFileSelected($event)">
