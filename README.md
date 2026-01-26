@@ -129,24 +129,53 @@ Frontend disponível em:
 
 ```bash
 git clone https://github.com/filipeabmoura/micro-pokedex.git
+```
+
+```bash
 cd micro-pokedex
+```
 
+```bash
 docker compose up -d
+```
 
+```bash
 cd backend
-cp .env.example .env
-npm install
-npx prisma generate
-npx prisma migrate dev
-npm run start:dev
+```
 
-cd frontend
+```bash
+cp .env.example .env
+```
+
+```bash
 npm install
+```
+
+```bash
+npx prisma generate
+```
+
+```bash
+npx prisma migrate dev
+```
+
+```bash
+npm run start:dev
+```
+
+```bash
+cd frontend
+```
+
+```bash
+npm install
+```
+
+```bash
 ng serve
+```
 
 ------------------------------------------------------------------------
-
----
 
 ## 📝 Convenção de Commits
 
